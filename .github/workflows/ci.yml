@@ -1,0 +1,40 @@
+# Run static analysis and tests
+name: "ci"
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: True
+on:
+  workflow_dispatch:
+  workflow_call:
+  pull_request:
+  push:
+    branches: ["main"]
+defaults:
+  run:
+    shell: "pwsh"
+jobs:
+  build-docs:
+    runs-on: "ubuntu-24.04"
+    steps:
+      - uses: "actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332" # v4.1.7
+        with:
+          submodules: True
+      - uses: "astral-sh/setup-uv@9f1f1fece28798fe5e7ece00f4243abe886974b2" # v3.0.0
+        with:
+          enable-cache: true
+      - run: "uv run sphinx-build -EaT 'docs' '_site'"
+      - uses: "actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa" # v3.0.1
+  deploy-docs:
+    needs:
+      - "build-docs"
+    environment:
+      name: "github-pages"
+      url: "${{ steps.deployment.outputs.page_url }}"
+    permissions:
+      id-token: "write"
+      pages: "write"
+    if: github.event_name != 'pull_request'
+    runs-on: "ubuntu-24.04"
+    steps:
+      - id: "deployment"
+        uses: "actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e" # v4.0.5
