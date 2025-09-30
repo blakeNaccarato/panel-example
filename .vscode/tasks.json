@@ -1,31 +1,42 @@
 {
   "version": "2.0.0",
+  "problemMatcher": [],
+  "presentation": { "group": "tasks" },
   "tasks": [
     {
-      "label": "Preview app",
-      "command": "uv",
-      "args": ["run", "panel", "serve", "app.ipynb", "--dev"],
-      "problemMatcher": []
+      "label": "all",
+      "command": "",
+      "dependsOn": ["panel", "panel-script", "myst-nb", "jupyter-book", "myst"]
     },
     {
-      "label": "Preview docs",
+      "label": "panel",
+      "command": "uv",
+      "args": ["run", "panel", "serve", "app.ipynb", "--dev"]
+    },
+    {
+      "label": "panel-script",
+      "command": "uv",
+      "args": ["run", "panel", "serve", "app.py", "--dev", "--port", "5007"]
+    },
+    {
+      "label": "myst-nb",
+      "command": "uv",
+      "args": ["run", "sphinx-autobuild", "docs", "_site"]
+    },
+    {
+      "label": "jupyter-book",
       "command": "uv",
       "args": [
         "run",
-        "sphinx-autobuild",
-        "--show-traceback",
-        "docs",
-        "_site",
-        "--ignore",
-        "**/temp",
-        "--ignore",
-        "**/data",
-        "--ignore",
-        "**/apidocs",
-        "--ignore",
-        "**/*schema.json"
-      ],
-      "problemMatcher": []
+        "watchfiles",
+        "uv run jupyter-book build docs",
+        "docs/index.ipynb"
+      ]
+    },
+    {
+      "label": "myst",
+      "command": "myst",
+      "args": ["start"]
     }
   ]
 }

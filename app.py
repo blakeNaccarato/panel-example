@@ -9,8 +9,6 @@ CSV_FILE = (
     "https://raw.githubusercontent.com/holoviz/panel/main/examples/assets/occupancy.csv"
 )
 
-pn.extension(design="material", sizing_mode="stretch_width")
-
 
 @pn.cache
 def get_data():
@@ -37,18 +35,10 @@ def get_plot(variable="Temperature", window=30, sigma=10):
     ) * highlight.hvplot.scatter(color=SECONDARY_COLOR, padding=0.1, legend=False)
 
 
-variable_widget = pn.widgets.Select(
+variable = pn.widgets.Select(
     name="variable", value="Temperature", options=list(data.columns)
 )
-window_widget = pn.widgets.IntSlider(name="window", value=30, start=1, end=60)
-sigma_widget = pn.widgets.IntSlider(name="sigma", value=10, start=0, end=20)
-bound_plot = pn.bind(
-    get_plot, variable=variable_widget, window=window_widget, sigma=sigma_widget
-)
-
-pn.template.MaterialTemplate(
-    site="Panel",
-    title="Getting Started App",
-    sidebar=[variable_widget, window_widget, sigma_widget],
-    main=[bound_plot],
-).servable()
+window = pn.widgets.IntSlider(name="window", value=30, start=1, end=60)
+sigma = pn.widgets.IntSlider(name="sigma", value=10, start=0, end=20)
+plot = pn.bind(get_plot, variable=variable, window=window, sigma=sigma)
+pn.GridBox(variable, window, sigma, plot).servable()

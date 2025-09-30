@@ -1,0 +1,9 @@
+version: 1
+site:
+  template: "book-theme"
+project:
+  jupyter:
+    binder:
+      repo: "blakeNaccarato/panel-example"
+  toc:
+    - file: "docs/index.ipynb"

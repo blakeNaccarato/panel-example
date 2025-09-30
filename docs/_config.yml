@@ -1,0 +1,7 @@
+execute:
+  execute_notebooks: false
+launch_buttons:
+  thebe: true
+repository:
+  path_to_book: "docs"
+  url: "https://github.com/blakeNaccarato/panel-example"

@@ -164,10 +164,7 @@
     "generateDocstring": true,
     "generateSymbol": true
   },
-  "python.analysis.fixAll": [
-    "source.convertImportFormat",
-    "source.unusedImports"
-  ],
+  "python.analysis.fixAll": ["source.convertImportFormat"],
   "python.analysis.packageIndexDepths": [
     { "name": "", "depth": 16, "includeAllSymbols": true }
   ],
